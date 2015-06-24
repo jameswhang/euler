@@ -59,7 +59,7 @@ public class problem17 {
 				ret = 8;
 				break;
 			case 19:
-				ret = 9;
+				ret = 8;
 				break;
 			case 20:
 				ret = 6;
@@ -67,25 +67,31 @@ public class problem17 {
 			}
 		} else {
 			switch (num) {
-			case 30:
+			case 1:
+				ret = 3;
+				break;
+			case 2:
 				ret = 6;
 				break;
-			case 40:
+			case 3:
+				ret = 6;
+				break;
+			case 4:
 				ret = 5;
 				break;
-			case 50:
+			case 5:
 				ret = 5;
 				break;
-			case 60:
+			case 6:
 				ret = 5;
 				break;
-			case 70:
+			case 7:
 				ret = 7;
 				break;
-			case 80:
+			case 8:
 				ret = 6;
 				break;
-			case 90:
+			case 9:
 				ret = 6;
 				break;
 			}
@@ -94,9 +100,45 @@ public class problem17 {
 	}
 	public static void main(String[] args) {
 		int totalCount = 0;
-		for(int num=1; num <= 20; num++) {
-			if (num <= 5) {
+		for(int num=1; num <= 1000; num++) {
+			if (num <= 20) {
 				totalCount += getCount(num, 0);
+			} else if (num < 100) {
+				if (num <= 20) {
+					totalCount += getCount(num, 0);
+				} else if (num < 30) {
+					int onesDigit = num % 20;
+					totalCount += getCount(onesDigit, 0);
+					totalCount += 6;
+				} else {
+					int tensDigit = num / 10;
+					int onesDigit = num % 10; 
+					totalCount += getCount(onesDigit, 0);
+					totalCount += getCount(tensDigit, 1);
+				}
+			} else if (num < 1000) {
+				int whichHundred = num / 100;
+				int rem = num % 100;
+				int tensDigit = 0, onesDigit = 0;
+				totalCount += (getCount(whichHundred, 0) + 7);
+				if (rem <= 20) {
+					onesDigit = rem;
+					totalCount += getCount(rem, 0);
+				} else if (rem < 30) {
+					onesDigit = rem % 20;
+					totalCount += getCount(onesDigit, 0);
+					totalCount += 6;
+				} else {
+					tensDigit = rem / 10;
+					onesDigit = rem % 10; 
+					totalCount += getCount(onesDigit, 0);
+					totalCount += getCount(tensDigit, 1);
+				}
+				if (tensDigit != 0 || onesDigit != 0) {
+					totalCount += 3;
+				}
+			} else {
+				totalCount += 11;
 			}
 		}
 		System.out.println(totalCount);
